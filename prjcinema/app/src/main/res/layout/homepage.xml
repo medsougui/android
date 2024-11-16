@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/homepage">
+
+    <!-- Scrollable Main Content Area -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_nav_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Featured Movie Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:padding="8dp"
+                android:background="#FFFFFF"
+                android:elevation="4dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@android:drawable/ic_menu_gallery"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Featured Movie Title"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:paddingTop="4dp"
+                    android:paddingStart="8dp"
+                    android:textColor="#000000" />
+            </LinearLayout>
+
+            <!-- Action Movies Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Action Movies"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="#000000" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Movie Cards -->
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Horror Movies Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Horror Movies"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="#000000" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Drama Movies Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Drama Movies"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="#000000" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Comedy Movies Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comedy Movies"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="#000000" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Arabic Movies Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Arabic Movies"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:textColor="#000000" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                    <include layout="@layout/movie_card" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottom_nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:weightSum="3">
+
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Search"
+            android:textColor="#000000"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableTop="@android:drawable/ic_menu_search"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/button_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Home"
+            android:textColor="#000000"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableTop="@android:drawable/ic_menu_compass"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/button_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Profile"
+            android:textColor="#000000"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableTop="@android:drawable/ic_menu_myplaces"
+            android:gravity="center" />
+    </LinearLayout>
+</RelativeLayout>

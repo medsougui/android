@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Search Area -->
+    <EditText
+        android:id="@+id/search_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Search for movies..."
+        android:padding="12dp"
+        android:background="@android:drawable/edit_text"
+        android:inputType="text"
+        android:textColor="#000000"
+        android:textColorHint="#808080" />
+
+    <!-- Scrollable Movie Grid Area -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_edit_text"
+        android:padding="8dp">
+        <GridLayout
+            android:id="@+id/movie_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal"
+            android:padding="8dp">
+            <include layout="@layout/movie_card_small" />
+            <include layout="@layout/movie_card_small" />
+            <include layout="@layout/movie_card_small" />
+            <include layout="@layout/movie_card_small" />
+            <include layout="@layout/movie_card_small" />
+            <include layout="@layout/movie_card_small" />
+            <include layout="@layout/movie_card_small" />
+            <include layout="@layout/movie_card_small" />
+
+        </GridLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottom_nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:weightSum="3">
+
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Search"
+            android:textColor="#000000"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableTop="@android:drawable/ic_menu_search"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/button_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Home"
+            android:textColor="#000000"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableTop="@android:drawable/ic_menu_compass"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/button_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Profile"
+            android:textColor="#000000"
+            android:background="?android:attr/selectableItemBackground"
+            android:drawableTop="@android:drawable/ic_menu_myplaces"
+            android:gravity="center" />
+    </LinearLayout>
+</RelativeLayout>
