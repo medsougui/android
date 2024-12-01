@@ -1,5 +1,5 @@
 package com.example.prjcinema;
-
+import com.google.firebase.FirebaseApp;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
