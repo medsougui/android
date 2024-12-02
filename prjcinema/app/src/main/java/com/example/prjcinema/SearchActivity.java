@@ -3,18 +3,12 @@ package com.example.prjcinema;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
+import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
@@ -22,42 +16,58 @@ public class SearchActivity extends AppCompatActivity {
     private FilmService filmService;
     private GridLayout movieGrid;
     private EditText searchEditText;
-    private ArrayList<Film> allFilms; // To store all films
+    private Spinner categorySpinner;
+
+    private ArrayList<Film> allFilms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search); // Your Search page layout
+        setContentView(R.layout.search);
 
-        // Initialize the FilmService and UI elements
         filmService = new FilmService();
         movieGrid = findViewById(R.id.movie_grid);
         searchEditText = findViewById(R.id.search_edit_text);
+        categorySpinner = findViewById(R.id.category_spinner);
 
         Button buttonSearch = findViewById(R.id.button_search);
         Button buttonHome = findViewById(R.id.button_home);
         Button buttonCinema = findViewById(R.id.button_cinema);
 
-        // Retrieve all films when the activity is created
-        retrieveAllFilms();
+        // Set up category spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.categories, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(adapter);
 
-        // Handle search button click
+        // Set spinner listener
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                performSearch(searchEditText.getText().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        // Set button listeners
         buttonSearch.setOnClickListener(v -> performSearch(searchEditText.getText().toString()));
-
-        // Handle navigation to Home
         buttonHome.setOnClickListener(v -> {
             Intent intent = new Intent(SearchActivity.this, HomePageActivity.class);
             startActivity(intent);
         });
-
-        // Handle navigation to Cinema
         buttonCinema.setOnClickListener(v -> {
             Intent intent = new Intent(SearchActivity.this, CinemaActivity.class);
             startActivity(intent);
         });
 
-        // Add a TextWatcher to search as the user types
-        searchEditText.addTextChangedListener(new android.text.TextWatcher() {
+        // Fetch all films
+        fetchMovies();
+
+        // Real-time search
+        searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
 
@@ -67,46 +77,48 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(android.text.Editable editable) {}
+            public void afterTextChanged(Editable editable) {}
         });
     }
 
-    // Method to retrieve all films from FilmService
-    private void retrieveAllFilms() {
-        filmService.getAllFilms();
-        // Assuming the films are retrieved asynchronously. Use a callback to set the allFilms list after retrieval.
+    private void fetchMovies() {
+        filmService.getCategorizedFilms((actionMovies, horrorMovies, dramaMovies, comedyMovies, arabicMovies, featuredFilm) -> {
+            allFilms = new ArrayList<>();
+            allFilms.addAll(actionMovies);
+            allFilms.addAll(horrorMovies);
+            allFilms.addAll(dramaMovies);
+            allFilms.addAll(comedyMovies);
+            allFilms.addAll(arabicMovies);
+
+            updateMovieGrid(allFilms); // Initially show all movies
+        });
     }
 
-    // Method to filter films based on search query
     private void performSearch(String query) {
-        if (TextUtils.isEmpty(query)) {
-            // If search query is empty, show all films
-            updateMovieGrid(allFilms);
-        } else {
-            ArrayList<Film> filteredFilms = new ArrayList<>();
-            for (Film film : allFilms) {
-                if (film.getName().toLowerCase().contains(query.toLowerCase())) {
-                    filteredFilms.add(film);
-                }
+        String selectedCategory = categorySpinner.getSelectedItem().toString();
+        ArrayList<Film> filteredFilms = new ArrayList<>();
+
+        for (Film film : allFilms) {
+            boolean matchesQuery = TextUtils.isEmpty(query) || film.getName().toLowerCase().contains(query.toLowerCase());
+            boolean matchesCategory = selectedCategory.equals("All") || film.getGenre().equalsIgnoreCase(selectedCategory);
+
+            if (matchesQuery && matchesCategory) {
+                filteredFilms.add(film);
             }
-            updateMovieGrid(filteredFilms); // Update the grid with filtered films
         }
+        updateMovieGrid(filteredFilms);
     }
 
-    // Method to update the movie grid with the provided list of films
     private void updateMovieGrid(ArrayList<Film> films) {
-        // Clear the existing grid
         movieGrid.removeAllViews();
 
-        // Add the films to the grid
         for (Film film : films) {
-            View movieCard = getLayoutInflater().inflate(R.layout.movie_card_small, movieGrid, false);
-            ImageView movieImage = movieCard.findViewById(R.id.movie_image);
+            View movieCard = getLayoutInflater().inflate(R.layout.movie_card, movieGrid, false);
             TextView movieTitle = movieCard.findViewById(R.id.movie_title);
+            ImageView movieImage = movieCard.findViewById(R.id.movie_image);
 
-            // Set movie data (You can use an image loader like Picasso or Glide to load images)
             movieTitle.setText(film.getName());
-            // Picasso.get().load(film.getPhoto()).into(movieImage); // Uncomment if using Picasso/Glide for images
+            Glide.with(this).load(film.getPhoto()).into(movieImage);
 
             movieGrid.addView(movieCard);
         }

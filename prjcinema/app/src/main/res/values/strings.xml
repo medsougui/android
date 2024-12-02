@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">prjcinema</string>
+    <string name="app_name">PRJ Cinema</string>
+    <string-array name="categories">
+        <item>All</item>
+        <item>Action</item>
+        <item>Comedy</item>
+        <item>Drama</item>
+        <item>Horror</item>
+    </string-array>
 </resources>
