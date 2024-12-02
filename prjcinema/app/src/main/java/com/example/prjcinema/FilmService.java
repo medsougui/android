@@ -14,36 +14,83 @@ public class FilmService {
     private static final String TAG = "FilmService";
     private DatabaseReference database;
 
+    public interface FilmDataCallback {
+        void onDataRetrieved(ArrayList<Film> actionMovies, ArrayList<Film> horrorMovies,
+                             ArrayList<Film> dramaMovies, ArrayList<Film> comedyMovies,
+                             ArrayList<Film> arabicMovies, Film featuredFilm);
+    }
+
     public FilmService() {
-        // Initialize Firebase Realtime Database reference
         database = FirebaseDatabase.getInstance().getReference("Films");
     }
 
-    // Method to add a film
-    public void addFilm(Film film) {
-        database.child(film.getId()).setValue(film)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "Film added successfully!"))
-                .addOnFailureListener(e -> Log.w(TAG, "Error adding film", e));
-    }
-
-    // Method to retrieve all films and log them
-    public void getAllFilms() {
-        database.addValueEventListener(new ValueEventListener() {
+    public void getCategorizedFilms(FilmDataCallback callback) {
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                ArrayList<Film> films = new ArrayList<>();
+                ArrayList<Film> actionMovies = new ArrayList<>();
+                ArrayList<Film> horrorMovies = new ArrayList<>();
+                ArrayList<Film> dramaMovies = new ArrayList<>();
+                ArrayList<Film> comedyMovies = new ArrayList<>();
+                ArrayList<Film> arabicMovies = new ArrayList<>();
+
+                Film featuredFilm = null;
+
                 for (DataSnapshot filmSnapshot : snapshot.getChildren()) {
                     Film film = filmSnapshot.getValue(Film.class);
                     if (film != null) {
-                        films.add(film);
-                        Log.d(TAG, "Retrieved film: " + film.getName() + " - " + film.getGenre());
+                        switch (film.getGenre()) {
+                            case "Action":
+                                actionMovies.add(film);
+                                break;
+                            case "Horror":
+                                horrorMovies.add(film);
+                                break;
+                            case "Drama":
+                                dramaMovies.add(film);
+                                break;
+                            case "Comedy":
+                                comedyMovies.add(film);
+                                break;
+                            case "Arabic":
+                                arabicMovies.add(film);
+                                break;
+                        }
+                        if (featuredFilm == null || Integer.parseInt(film.getId()) > Integer.parseInt(featuredFilm.getId())) {
+                            featuredFilm = film;
+                        }
                     }
                 }
+                callback.onDataRetrieved(actionMovies, horrorMovies, dramaMovies, comedyMovies, arabicMovies, featuredFilm);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 Log.w(TAG, "Error retrieving films", error.toException());
+            }
+        });
+    }
+
+    // New method to retrieve all films
+    public void getAllFilms() {
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                ArrayList<Film> allFilms = new ArrayList<>();
+
+                for (DataSnapshot filmSnapshot : snapshot.getChildren()) {
+                    Film film = filmSnapshot.getValue(Film.class);
+                    if (film != null) {
+                        allFilms.add(film); // Add all films to the list
+                    }
+                }
+                // Log the list or use it as needed
+                Log.d(TAG, "All films: " + allFilms);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "Error retrieving all films", error.toException());
             }
         });
     }

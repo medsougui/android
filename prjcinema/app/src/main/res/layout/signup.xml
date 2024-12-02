@@ -59,15 +59,6 @@
             android:layout_marginTop="10dp" />
 
         <!-- Confirm Password Input -->
-        <EditText
-            android:id="@+id/etConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Confirm your password"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:background="@android:drawable/edit_text"
-            android:layout_marginTop="10dp" />
 
         <!-- Sign Up Button -->
         <Button

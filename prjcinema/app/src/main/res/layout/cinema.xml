@@ -1,38 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Search Area -->
-    <EditText
-        android:id="@+id/search_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="Search for movies..."
-        android:padding="12dp"
-        android:background="@android:drawable/edit_text"
-        android:inputType="text"
-        android:textColor="#000000"
-        android:textColorHint="#808080" />
 
-    <!-- Scrollable Movie Grid Area -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/search_edit_text"
-        android:padding="8dp">
-        <GridLayout
-            android:id="@+id/movie_grid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:orientation="horizontal"
-            android:padding="8dp">
-            <!-- This layout will be populated dynamically in SearchActivity -->
-        </GridLayout>
-    </ScrollView>
 
     <!-- Bottom Navigation Bar -->
     <LinearLayout
@@ -45,6 +16,7 @@
         android:elevation="8dp"
         android:weightSum="3">
 
+        <!-- Search Button -->
         <Button
             android:id="@+id/button_search"
             android:layout_width="0dp"
@@ -56,6 +28,7 @@
             android:drawableTop="@android:drawable/ic_menu_search"
             android:gravity="center" />
 
+        <!-- Home Button -->
         <Button
             android:id="@+id/button_home"
             android:layout_width="0dp"
@@ -67,6 +40,7 @@
             android:drawableTop="@android:drawable/ic_menu_compass"
             android:gravity="center" />
 
+        <!-- Profile Button -->
         <Button
             android:id="@+id/button_cinema"
             android:layout_width="0dp"

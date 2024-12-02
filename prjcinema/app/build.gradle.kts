@@ -32,6 +32,8 @@ android {
 }
 
 dependencies {
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
     // Firebase BOM for managing versions
     implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
 
